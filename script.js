@@ -1,17 +1,16 @@
-const examDate = new Date("2024-09-15T08:00:00").getTime();
+// Gestion du formulaire de renseignements
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  
+  const nom = document.getElementById("nom").value;
+  const email = document.getElementById("email").value;
+  const telephone = document.getElementById("telephone").value;
+  const forfait = document.getElementById("forfait").value;
+  const message = document.getElementById("message").value;
 
-const timer = setInterval(() => {
-  const now = new Date().getTime();
-  const distance = examDate - now;
-
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-  document.getElementById("timer").innerHTML = `${days} j ${hours} h ${minutes} min`;
-
-  if (distance < 0) {
-    clearInterval(timer);
-    document.getElementById("timer").innerHTML = "En cours !";
-  }
-}, 1000);
+  // Simulation d'envoi (à remplacer par un vrai backend, EmailJS, Formspree, etc.)
+  alert(`Merci ${nom} !\n\nVotre demande a été envoyée.\nNous vous contacterons à : ${email}`);
+  
+  // Réinitialiser le formulaire
+  document.getElementById("contactForm").reset();
+});
