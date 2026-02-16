@@ -4,70 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  
+
   <!-- SEO optimisé -->
   <title>Réussissez l'examen OIIQ dès la 1ère tentative | CEPI Coach</title>
   <meta name="description" content="Préparez votre examen OIIQ avec nos formations intensives, simulations réalistes et coaching personnalisé. Taux de réussite de 94% en 2024." />
   <meta name="keywords" content="examen OIIQ, préparation infirmière, formation OIIQ, simulation examen, coaching infirmier" />
-  
-  <!-- Open Graph (partage réseaux sociaux) -->
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Préparation Examen OIIQ | CEPI Coach" />
   <meta property="og:description" content="Maximisez vos chances de réussite à l'examen OIIQ avec notre méthode éprouvée." />
   <meta property="og:image" content="https://cepicoaching.ca/images/og-image.jpg" />
   <meta property="og:url" content="https://cepicoaching.ca" />
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  
-  <!-- Polices optimisées (preconnect) -->
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet" />
-  
+
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css" />
-  
-  <!-- Preload image hero -->
-  <link rel="preload" as="image" href="images/hero-banner.png" />
+
+  <!-- Preload hero -->
+  <link rel="preload" as="image" href="images/hero-banner.webp" />
 </head>
 
 <body>
-  <!-- HEADER STICKY -->
+  <!-- HEADER -->
   <header id="header">
     <nav class="navbar">
       <div class="logo">
         <a href="#accueil">CEPI<em>Coach</em></a>
       </div>
-      
-      <!-- Menu hamburger mobile -->
+
       <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </button>
-      
+
       <ul class="nav-links" id="navLinks">
         <li><a href="#accueil">Accueil</a></li>
         <li><a href="#formations">Formations</a></li>
         <li><a href="#methode">Méthode</a></li>
-        <li><a href="#temoignages">Témoignages</a></li>
+        <li><a href="#espace">Espace Étudiant</a></li>
         <li><a href="#blogue">Blogue</a></li>
+        <li><a href="#paiement">Paiement</a></li>
+        <li><a href="#inscription">Demande d'info</a></li>
         <li><a href="#contact" class="cta-nav">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <section id="accueil" class="hero">
     <picture>
       <source srcset="images/hero-banner.webp" type="image/webp" />
-      <img src="images/hero-banner.webp" alt="Étudiants en soins infirmiers préparant l'examen OIIQ" class="hero-bg" loading="eager" />
+      <img src="images/hero-banner.jpg" alt="Étudiants en soins infirmiers préparant l'examen OIIQ" class="hero-bg" loading="eager" />
     </picture>
-    
+
     <div class="hero-content">
-      <h1>Réussissez l'examen de l'OIIQ<br><span class="highlight">dès votre première tentative !</span></h1>
+      <h1>Réussissez l'examen de l'OIIQ<br /><span class="highlight">dès votre première tentative !</span></h1>
       <p class="hero-subtitle">Formations ciblées, simulations réalistes et coaching personnalisé</p>
-      
+
       <div class="hero-stats">
         <div class="stat">
           <strong>94%</strong>
@@ -82,8 +81,12 @@
           <span>Note moyenne</span>
         </div>
       </div>
-      
-      <a href="#formations" class="btn-primary btn-large">Voir les forfaits</a>
+
+      <div class="hero-actions">
+        <a href="#formations" class="btn-secondary btn-large">Voir les forfaits</a>
+        <a href="#paiement" class="btn-primary btn-large">Payer maintenant</a>
+        <a href="#inscription" class="btn-secondary btn-large">Demande d'info</a>
+      </div>
     </div>
   </section>
 
@@ -114,7 +117,7 @@
     <div class="container">
       <h2 class="section-title">Nos Formations & Forfaits</h2>
       <p class="section-subtitle">Choisissez la formule adaptée à vos besoins</p>
-      
+
       <div class="cards">
         <!-- Option A -->
         <div class="card">
@@ -122,13 +125,13 @@
           <img src="images/formation.webp" alt="Révision intensive par système" loading="lazy" />
           <h3>Option A</h3>
           <p class="card-desc">Révisions intensives par système : cardiovasculaire, périnatalité, pédiatrie, santé mentale, etc.</p>
-          
+
           <ul class="card-features">
             <li>✓ 12 modules complets</li>
             <li>✓ Fiches de révision PDF</li>
             <li>✓ Accès 6 mois</li>
           </ul>
-          
+
           <div class="card-footer">
             <p class="price">299 <span class="currency">$ CAD</span></p>
             <a href="#paiement" class="btn-card" data-forfait="option-a">Choisir ce forfait</a>
@@ -140,13 +143,13 @@
           <img src="images/examen-simulation.webp" alt="Simulation d'examen OIIQ" loading="lazy" />
           <h3>Option B</h3>
           <p class="card-desc">Simulations d'examen chronométrées dans des conditions 100% réalistes.</p>
-          
+
           <ul class="card-features">
             <li>✓ 5 examens blancs complets</li>
             <li>✓ Corrections détaillées</li>
             <li>✓ Analyse de performance</li>
           </ul>
-          
+
           <div class="card-footer">
             <p class="price">399 <span class="currency">$ CAD</span></p>
             <a href="#paiement" class="btn-card" data-forfait="option-b">Choisir ce forfait</a>
@@ -159,13 +162,13 @@
           <img src="images/coaching.webp" alt="Coaching individuel infirmier" loading="lazy" />
           <h3>Option C</h3>
           <p class="card-desc">Coaching individuel axé sur le jugement clinique et la priorisation des soins.</p>
-          
+
           <ul class="card-features">
             <li>✓ 3 séances 1h en privé</li>
             <li>✓ Plan d'étude personnalisé</li>
             <li>✓ Suivi par courriel</li>
           </ul>
-          
+
           <div class="card-footer">
             <p class="price">599 <span class="currency">$ CAD</span></p>
             <a href="#paiement" class="btn-card" data-forfait="option-c">Choisir ce forfait</a>
@@ -173,13 +176,13 @@
         </div>
       </div>
 
-      <!-- Forfait Complet -->
+      <!-- Forfait complet -->
       <div class="combo-package">
         <div class="combo-badge">🎁 Meilleure offre</div>
         <h3>Forfait Complet (A + B + C)</h3>
         <p>Maximisez vos chances de réussite avec notre formule tout-inclus</p>
         <p class="price-combo">
-          <span class="old-price">1297 $</span> 
+          <span class="old-price">1297 $</span>
           <strong>1097 $ CAD</strong>
         </p>
         <p class="savings">Économisez 200 $ !</p>
@@ -193,9 +196,9 @@
     <div class="container">
       <div class="split">
         <div class="text">
-          <h2>Notre Méthode Éprouvée</h2>
+          <h2>Notre Méthode</h2>
           <p class="lead">Nous alignons nos formations sur le cadre de référence officiel de l'OIIQ</p>
-          
+
           <ul class="method-list">
             <li>
               <strong>📊 Jugement clinique</strong>
@@ -211,7 +214,7 @@
             </li>
           </ul>
         </div>
-        
+
         <div class="image">
           <img src="images/student-tablet.webp" alt="Étudiante utilisant la plateforme CEPI Coach" loading="lazy" />
         </div>
@@ -223,7 +226,7 @@
   <section id="temoignages" class="section">
     <div class="container">
       <h2 class="section-title">Ils ont réussi avec CEPI Coach</h2>
-      
+
       <div class="testimonials">
         <div class="testimonial">
           <div class="stars">★★★★★</div>
@@ -233,7 +236,7 @@
             <span>Infirmière, Montréal</span>
           </div>
         </div>
-        
+
         <div class="testimonial">
           <div class="stars">★★★★★</div>
           <p>"Le coaching individuel m'a aidé à combler mes lacunes. Je recommande à 100% !"</p>
@@ -242,7 +245,7 @@
             <span>Infirmier, Québec</span>
           </div>
         </div>
-        
+
         <div class="testimonial">
           <div class="stars">★★★★★</div>
           <p>"Formation complète et bien structurée. J'ai gagné en confiance et en compétences."</p>
@@ -258,9 +261,9 @@
   <!-- ESPACE ÉTUDIANT -->
   <section id="espace" class="section cta-section">
     <div class="container text-center">
-      <h2>Espace Étudiant</h2>
+      <h2>Espace Étudiant (LMS)</h2>
       <p>Connectez-vous à votre espace personnel pour suivre vos progrès et accéder à vos ressources.</p>
-      <a href="https://app.cepicoaching.ca" class="btn-secondary btn-large" target="_blank" rel="noopener">Se connecter</a>
+      <a href="https://app.cepicoaching.ca" class="btn-primary btn-large" target="_blank" rel="noopener">Se connecter</a>
     </div>
   </section>
 
@@ -268,7 +271,7 @@
   <section id="blogue" class="section light">
     <div class="container">
       <h2 class="section-title">Blogue & Ressources</h2>
-      
+
       <div class="blog-grid">
         <article class="blog-card">
           <img src="images/blog-stress.webp" alt="Gérer le stress avant l'examen" loading="lazy" />
@@ -279,7 +282,7 @@
             <a href="blog/gerer-stress-examen.html" class="blog-link">Lire l'article →</a>
           </div>
         </article>
-        
+
         <article class="blog-card">
           <img src="images/blog-oiiq.webp" alt="Mises à jour OIIQ" loading="lazy" />
           <div class="blog-content">
@@ -296,11 +299,10 @@
   <!-- PAIEMENT -->
   <section id="paiement" class="section">
     <div class="container">
-      <h2 class="section-title">Informations de Paiement</h2>
+      <h2 class="section-title">Paiement</h2>
       <p class="section-subtitle">Choisissez votre mode de paiement sécurisé</p>
-      
+
       <div class="payment-options">
-        <!-- Virement Interac -->
         <div class="payment-card">
           <h3>💳 Virement Interac</h3>
           <div class="bank-info">
@@ -315,9 +317,9 @@
               </ul>
             </div>
           </div>
+          <a href="#inscription" class="btn-secondary btn-large" style="margin-top:14px;">Je veux être contacté</a>
         </div>
-        
-        <!-- Paiement en ligne -->
+
         <div class="payment-card featured">
           <div class="badge-instant">Accès instantané</div>
           <h3>🔒 Paiement en ligne sécurisé</h3>
@@ -338,7 +340,7 @@
     <div class="container">
       <h2 class="section-title">Demande d'Information</h2>
       <p class="section-subtitle">Remplissez ce formulaire pour recevoir plus d'informations ou vous inscrire</p>
-      
+
       <form id="contactForm" class="contact-form">
         <div class="form-row">
           <div class="form-group">
@@ -375,8 +377,7 @@
           <textarea id="message" name="message" rows="5" placeholder="Posez-nous vos questions..."></textarea>
         </div>
 
-        <button type="submit" class="btn-secondary btn-large">Envoyer ma demande</button>
-        
+        <button type="submit" class="btn-primary btn-large">Envoyer ma demande</button>
         <p class="form-note">Vos informations sont protégées et ne seront jamais partagées.</p>
       </form>
     </div>
@@ -388,36 +389,44 @@
       <h2>Contactez-nous</h2>
       <p>Une question ? Notre équipe est là pour vous aider</p>
       <p class="contact-email"><strong>info@cepicoaching.ca</strong></p>
-      
+
       <div class="social-links">
         <a href="https://facebook.com/cepicoach" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+          </svg>
         </a>
+
         <a href="https://instagram.com/cepicoach" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 0 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 0 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
+          </svg>
         </a>
       </div>
-      
+
       <p class="disclaimer">*Ce site n'est pas affilié à l'OIIQ. Contenu à visée éducative uniquement.*</p>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="container footer-content">
       <div class="footer-col">
         <h4>CEPI Coach</h4>
         <p>Votre partenaire pour réussir l'examen OIIQ</p>
       </div>
-      
+
       <div class="footer-col">
         <h4>Liens rapides</h4>
         <ul>
           <li><a href="#formations">Formations</a></li>
           <li><a href="#methode">Méthode</a></li>
           <li><a href="#blogue">Blogue</a></li>
+          <li><a href="#paiement">Paiement</a></li>
+          <li><a href="#inscription">Demande d'info</a></li>
         </ul>
       </div>
-      
+
       <div class="footer-col">
         <h4>Légal</h4>
         <ul>
@@ -426,15 +435,24 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="footer-bottom">
       <p>© 2025 CEPI Coach – Tous droits réservés</p>
     </div>
   </footer>
 
-  <!-- Bouton retour en haut -->
+  <!-- Retour en haut -->
   <button id="scrollTop" class="scroll-top" aria-label="Retour en haut">↑</button>
 
   <script src="js/script.js"></script>
+
+  <!-- Mini JS menu (si jamais ton script.js ne le fait pas) -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener("click", () => navLinks.classList.toggle("active"));
+    }
+  </script>
 </body>
 </html>

@@ -1,136 +1,240 @@
-// Menu mobile toggle
-const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
+/* =========================
+   CEPI Coach - script.js
+   - Menu mobile
+   - Scroll spy (active link)
+   - Header shadow on scroll
+   - Bouton "retour en haut"
+   - Smooth scroll offset (header)
+   - Countdown (prochaine session)
+   - Pré-remplissage du forfait (data-forfait)
+   - Soumission formulaire (démo + fallback mailto)
+========================= */
 
-menuToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('active');
-  menuToggle.classList.toggle('active');
-});
+(() => {
+  "use strict";
 
-// Fermer le menu au clic sur un lien
-navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.classList.remove('active');
-    menuToggle.classList.remove('active');
-  });
-});
+  // ---------- Helpers ----------
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-// Countdown timer
-const examDate = new Date("2025-09-15T08:00:00").getTime();
+  // ---------- Elements ----------
+  const header = $("#header");
+  const menuToggle = $("#menuToggle");
+  const navLinks = $("#navLinks");
+  const scrollTopBtn = $("#scrollTop");
 
-const updateCountdown = () => {
-  const now = new Date().getTime();
-  const distance = examDate - now;
+  // Countdown elements
+  const daysEl = $("#days");
+  const hoursEl = $("#hours");
+  const minutesEl = $("#minutes");
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  // Form
+  const contactForm = $("#contactForm");
+  const forfaitSelect = $("#forfait");
 
-  document.getElementById("days").textContent = String(days).padStart(2, '0');
-  document.getElementById("hours").textContent = String(hours).padStart(2, '0');
-  document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+  // Buttons that choose a forfait
+  const forfaitButtons = $$("[data-forfait]");
 
-  if (distance < 0) {
-    clearInterval(timerInterval);
-    document.getElementById("timer").innerHTML = "<p>L'examen est en cours !</p>";
-  }
-};
+  // ---------- 1) Mobile menu toggle ----------
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+      menuToggle.classList.toggle("active");
+    });
 
-const timerInterval = setInterval(updateCountdown, 1000);
-updateCountdown();
+    // Close menu when clicking a link (mobile)
+    $$("#navLinks a").forEach((a) => {
+      a.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuToggle.classList.remove("active");
+      });
+    });
 
-// Pré-remplir le formulaire selon le forfait choisi
-document.querySelectorAll('[data-forfait]').forEach(button => {
-  button.addEventListener('click', function(e) {
-    const forfaitValue = this.getAttribute('data-forfait');
-    
-    setTimeout(() => {
-      const selectForfait = document.getElementById('forfait');
-      if (selectForfait && forfaitValue) {
-        selectForfait.value = forfaitValue;
+    // Close menu on outside click
+    document.addEventListener("click", (e) => {
+      const isClickInside =
+        navLinks.contains(e.target) || menuToggle.contains(e.target);
+      if (!isClickInside) {
+        navLinks.classList.remove("active");
+        menuToggle.classList.remove("active");
       }
-    }, 100);
-  });
-});
+    });
+  }
 
-// Gestion du formulaire
-document.getElementById("contactForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  
-  const formData = {
-    nom: document.getElementById("nom").value,
-    email: document.getElementById("email").value,
-    telephone: document.getElementById("telephone").value,
-    forfait: document.getElementById("forfait").value,
-    message: document.getElementById("message").value
+  // ---------- 2) Smooth scroll with header offset ----------
+  // (Only for same-page anchors)
+  const getHeaderOffset = () => (header ? header.offsetHeight : 0);
+
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    const href = link.getAttribute("href");
+    if (!href || href === "#") return;
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    e.preventDefault();
+    const y =
+      target.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset();
+
+    window.scrollTo({ top: y, behavior: "smooth" });
+  });
+
+  // ---------- 3) Header shadow + scrollTop button ----------
+  const onScrollUI = () => {
+    const y = window.scrollY || document.documentElement.scrollTop;
+
+    // Header shadow
+    if (header) {
+      header.style.boxShadow =
+        y > 8 ? "0 8px 24px rgba(0,0,0,.08)" : "none";
+    }
+
+    // Scroll to top button
+    if (scrollTopBtn) {
+      scrollTopBtn.style.opacity = y > 600 ? "1" : "0";
+      scrollTopBtn.style.pointerEvents = y > 600 ? "auto" : "none";
+    }
   };
 
-  // Simulation d'envoi (à remplacer par vraie intégration backend/EmailJS)
-  console.log("Formulaire soumis:", formData);
-  
-  alert(`Merci ${formData.nom} !\n\nVotre demande a été reçue.\nNous vous contacterons à : ${formData.email}`);
-  
-  this.reset();
-});
+  window.addEventListener("scroll", onScrollUI, { passive: true });
+  window.addEventListener("load", onScrollUI);
 
-// Scroll to top button
-const scrollTopBtn = document.getElementById('scrollTop');
-
-window.addEventListener('scroll', () => {
-  if (window.pageYOffset > 300) {
-    scrollTopBtn.classList.add('visible');
-  } else {
-    scrollTopBtn.classList.remove('visible');
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   }
-});
 
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
+  // ---------- 4) Scroll spy (active nav link) ----------
+  const sections = $$("section[id]");
+  const navAnchors = $$("#navLinks a[href^='#']");
+  const setActiveLink = () => {
+    const offset = getHeaderOffset() + 20;
+    const y = window.scrollY + offset;
 
-// Header shadow on scroll
-const header = document.getElementById('header');
-
-window.addEventListener('scroll', () => {
-  if (window.pageYOffset > 100) {
-    header.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-  } else {
-    header.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-  }
-});
-
-// Lazy loading images (si pas supporté nativement)
-if ('loading' in HTMLImageElement.prototype) {
-  const images = document.querySelectorAll('img[loading="lazy"]');
-  images.forEach(img => {
-    img.src = img.dataset.src || img.src;
-  });
-} else {
-  // Fallback pour navigateurs anciens
-  const script = document.createElement('script');
-  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-  document.body.appendChild(script);
-}
-
-// Animations au scroll (optionnel - nécessite Intersection Observer)
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-      observer.unobserve(entry.target);
+    let currentId = null;
+    for (const sec of sections) {
+      const top = sec.offsetTop;
+      const bottom = top + sec.offsetHeight;
+      if (y >= top && y < bottom) {
+        currentId = sec.id;
+        break;
+      }
     }
-  });
-}, observerOptions);
 
-document.querySelectorAll('.card, .testimonial, .blog-card').forEach(el => {
-  el.style.opacity = '0';
-  observer.observe(el);
-});
+    navAnchors.forEach((a) => {
+      const href = a.getAttribute("href");
+      const isActive = currentId && href === `#${currentId}`;
+      a.classList.toggle("active", !!isActive);
+    });
+  };
+
+  window.addEventListener("scroll", setActiveLink, { passive: true });
+  window.addEventListener("load", setActiveLink);
+
+  // ---------- 5) Countdown ----------
+  // IMPORTANT: adapte la date à ta prochaine session réelle (heure locale).
+  // Exemple : 2026-06-15 09:00:00
+  const EXAM_DATE = new Date("2026-06-15T09:00:00");
+
+  const pad2 = (n) => String(n).padStart(2, "0");
+
+  const updateCountdown = () => {
+    if (!daysEl || !hoursEl || !minutesEl) return;
+
+    const now = new Date();
+    const diff = EXAM_DATE.getTime() - now.getTime();
+
+    if (diff <= 0) {
+      daysEl.textContent = "00";
+      hoursEl.textContent = "00";
+      minutesEl.textContent = "00";
+
+      // Optionnel: afficher "En cours !" si tu as un élément dédié
+      const countdownCta = $(".countdown-cta");
+      if (countdownCta) countdownCta.textContent = "📌 Session en cours ou date passée.";
+      return;
+    }
+
+    const totalMinutes = Math.floor(diff / (1000 * 60));
+    const days = Math.floor(totalMinutes / (60 * 24));
+    const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+    const minutes = totalMinutes % 60;
+
+    daysEl.textContent = pad2(days);
+    hoursEl.textContent = pad2(hours);
+    minutesEl.textContent = pad2(minutes);
+  };
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000 * 30); // mise à jour toutes les 30s
+
+  // ---------- 6) Pré-remplir le forfait au clic ----------
+  if (forfaitSelect && forfaitButtons.length) {
+    forfaitButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const forfait = btn.getAttribute("data-forfait");
+        if (!forfait) return;
+
+        // set select value if exists
+        const option = forfaitSelect.querySelector(`option[value="${forfait}"]`);
+        if (option) {
+          forfaitSelect.value = forfait;
+        }
+      });
+    });
+  }
+
+  // ---------- 7) Form submit ----------
+  // Par défaut: démo => empêche l'envoi.
+  // Si tu as un endpoint (Netlify Forms, Formspree, backend), je te l’intègre.
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const payload = Object.fromEntries(formData.entries());
+
+      // Validation simple
+      if (!payload.nom || !payload.email) {
+        alert("Merci de remplir au minimum votre nom complet et votre courriel.");
+        return;
+      }
+
+      // ✅ Option A (recommandée) : envoi vers un endpoint
+      // Décommente et remplace l'URL si tu as un backend / Formspree / etc.
+      /*
+      try {
+        const res = await fetch("https://TON-ENDPOINT", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) throw new Error("Erreur d'envoi");
+        alert("✅ Merci ! Votre demande a été envoyée.");
+        contactForm.reset();
+        return;
+      } catch (err) {
+        console.warn(err);
+      }
+      */
+
+      // ✅ Option B (fallback) : mailto
+      const subject = encodeURIComponent("Demande d'information - CEPI Coach");
+      const body = encodeURIComponent(
+        `Nom: ${payload.nom}\n` +
+        `Email: ${payload.email}\n` +
+        `Téléphone: ${payload.telephone || "-"}\n` +
+        `Forfait: ${payload.forfait || "-"}\n\n` +
+        `Message:\n${payload.message || "-"}\n`
+      );
+
+      // Remplace l'adresse si besoin
+      window.location.href = `mailto:info@cepicoaching.ca?subject=${subject}&body=${body}`;
+    });
+  }
+})();
