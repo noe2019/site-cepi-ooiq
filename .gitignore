@@ -1,0 +1,25 @@
+# ── Fichiers Office (Word, Excel) ──────────────────────
+*.docx
+*.xlsx
+*.pptx
+~$*
+
+# ── Système d'exploitation ──────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Éditeurs / IDE ──────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ── Node.js (si jamais utilisé) ─────────────────────────
+node_modules/
+npm-debug.log*
+
+# ── Fichiers temporaires / logs ─────────────────────────
+*.log
+*.tmp
+*.bak
