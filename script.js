@@ -7,7 +7,7 @@
    - Smooth scroll offset (header)
    - Countdown (prochaine session)
    - Pré-remplissage du forfait (data-forfait)
-   - Soumission formulaire (démo + fallback mailto)
+   - Soumission formulaire via Formspree
 ========================= */
 
 (() => {
@@ -62,7 +62,6 @@
   }
 
   // ---------- 2) Smooth scroll with header offset ----------
-  // (Only for same-page anchors)
   const getHeaderOffset = () => (header ? header.offsetHeight : 0);
 
   document.addEventListener("click", (e) => {
@@ -86,13 +85,11 @@
   const onScrollUI = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
 
-    // Header shadow
     if (header) {
       header.style.boxShadow =
         y > 8 ? "0 8px 24px rgba(0,0,0,.08)" : "none";
     }
 
-    // Scroll to top button
     if (scrollTopBtn) {
       scrollTopBtn.style.opacity = y > 600 ? "1" : "0";
       scrollTopBtn.style.pointerEvents = y > 600 ? "auto" : "none";
@@ -136,9 +133,9 @@
   window.addEventListener("load", setActiveLink);
 
   // ---------- 5) Countdown ----------
-  // IMPORTANT: adapte la date à ta prochaine session réelle (heure locale).
-  // Exemple : 2026-06-15 09:00:00
-  const EXAM_DATE = new Date("2026-06-15T09:00:00");
+  // Prochaine session OIIQ — septembre 2026 (date exacte à confirmer sur oiiq.org)
+  // L'OIIQ tient généralement ses examens le 3e jeudi de septembre.
+  const EXAM_DATE = new Date("2026-09-17T09:00:00");
 
   const pad2 = (n) => String(n).padStart(2, "0");
 
@@ -152,8 +149,6 @@
       daysEl.textContent = "00";
       hoursEl.textContent = "00";
       minutesEl.textContent = "00";
-
-      // Optionnel: afficher "En cours !" si tu as un élément dédié
       const countdownCta = $(".countdown-cta");
       if (countdownCta) countdownCta.textContent = "📌 Session en cours ou date passée.";
       return;
@@ -170,7 +165,7 @@
   };
 
   updateCountdown();
-  setInterval(updateCountdown, 1000 * 30); // mise à jour toutes les 30s
+  setInterval(updateCountdown, 1000 * 30);
 
   // ---------- 6) Pré-remplir le forfait au clic ----------
   if (forfaitSelect && forfaitButtons.length) {
@@ -178,19 +173,30 @@
       btn.addEventListener("click", () => {
         const forfait = btn.getAttribute("data-forfait");
         if (!forfait) return;
-
-        // set select value if exists
         const option = forfaitSelect.querySelector(`option[value="${forfait}"]`);
-        if (option) {
-          forfaitSelect.value = forfait;
+        if (option) forfaitSelect.value = forfait;
+
+        // Synchroniser aussi le sélecteur de la section paiement
+        const forfaitPaiement = $("#forfait-paiement");
+        if (forfaitPaiement) {
+          const optPaiement = forfaitPaiement.querySelector(`option[value="${forfait}"]`);
+          if (optPaiement) {
+            forfaitPaiement.value = forfait;
+            forfaitPaiement.dispatchEvent(new Event("change"));
+          }
         }
       });
     });
   }
 
-  // ---------- 7) Form submit ----------
-  // Par défaut: démo => empêche l'envoi.
-  // Si tu as un endpoint (Netlify Forms, Formspree, backend), je te l’intègre.
+  // ---------- 7) Formulaire — Formspree ----------
+  // 🔧 CONFIGURATION REQUISE :
+  //   1. Créez un compte gratuit sur https://formspree.io
+  //   2. Cliquez "+ New Form", nommez-le "CEPI Coach Contact"
+  //   3. Copiez votre Form ID (ex: xpwzgkla) et remplacez VOTRE_FORM_ID ci-dessous
+  const FORMSPREE_ID = "VOTRE_FORM_ID";
+  const FORMSPREE_URL = `https://formspree.io/f/${FORMSPREE_ID}`;
+
   if (contactForm) {
     contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -204,37 +210,52 @@
         return;
       }
 
-      // ✅ Option A (recommandée) : envoi vers un endpoint
-      // Décommente et remplace l'URL si tu as un backend / Formspree / etc.
-      /*
+      // Bouton : état chargement
+      const submitBtn = contactForm.querySelector("button[type='submit']");
+      const originalText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) {
+        submitBtn.textContent = "Envoi en cours…";
+        submitBtn.disabled = true;
+      }
+
+      // Si Formspree non encore configuré → fallback mailto
+      if (FORMSPREE_ID === "VOTRE_FORM_ID") {
+        const subject = encodeURIComponent("Demande d'information - CEPI Coach");
+        const body = encodeURIComponent(
+          `Nom: ${payload.nom}\n` +
+          `Email: ${payload.email}\n` +
+          `Téléphone: ${payload.telephone || "-"}\n` +
+          `Forfait: ${payload.forfait || "-"}\n\n` +
+          `Message:\n${payload.message || "-"}\n`
+        );
+        window.location.href = `mailto:info@cepicoaching.ca?subject=${subject}&body=${body}`;
+        if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+        return;
+      }
+
+      // Envoi Formspree
       try {
-        const res = await fetch("https://TON-ENDPOINT", {
+        const res = await fetch(FORMSPREE_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          headers: { "Accept": "application/json" },
+          body: formData,
         });
 
-        if (!res.ok) throw new Error("Erreur d'envoi");
-        alert("✅ Merci ! Votre demande a été envoyée.");
-        contactForm.reset();
-        return;
+        if (res.ok) {
+          contactForm.innerHTML = `
+            <div style="text-align:center;padding:40px 20px;">
+              <p style="font-size:48px;margin:0 0 12px;">✅</p>
+              <h3 style="font-size:22px;font-weight:800;margin:0 0 10px;">Message envoyé !</h3>
+              <p style="color:#6b7280;">Merci <strong>${payload.nom}</strong>, nous vous répondrons dans les plus brefs délais à <strong>${payload.email}</strong>.</p>
+            </div>`;
+        } else {
+          throw new Error("Erreur serveur");
+        }
       } catch (err) {
-        console.warn(err);
+        alert("Une erreur est survenue. Veuillez nous écrire directement à info@cepicoaching.ca");
+        if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
       }
-      */
-
-      // ✅ Option B (fallback) : mailto
-      const subject = encodeURIComponent("Demande d'information - CEPI Coach");
-      const body = encodeURIComponent(
-        `Nom: ${payload.nom}\n` +
-        `Email: ${payload.email}\n` +
-        `Téléphone: ${payload.telephone || "-"}\n` +
-        `Forfait: ${payload.forfait || "-"}\n\n` +
-        `Message:\n${payload.message || "-"}\n`
-      );
-
-      // Remplace l'adresse si besoin
-      window.location.href = `mailto:info@cepicoaching.ca?subject=${subject}&body=${body}`;
     });
   }
+
 })();
