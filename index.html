@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="style.css" />
 
   <!-- Preload hero -->
   <link rel="preload" as="image" href="images/hero-banner.webp" />
@@ -274,7 +274,7 @@
 
       <div class="blog-grid">
         <article class="blog-card">
-          <img src="images/blog-stress.webp" alt="Gérer le stress avant l'examen" loading="lazy" />
+          <img src="images/blog.webp" alt="Gérer le stress avant l'examen" loading="lazy" />
           <div class="blog-content">
             <span class="blog-date">15 mars 2025</span>
             <h3>5 techniques pour gérer le stress avant l'examen OIIQ</h3>
@@ -284,7 +284,7 @@
         </article>
 
         <article class="blog-card">
-          <img src="images/blog-oiiq.webp" alt="Mises à jour OIIQ" loading="lazy" />
+          <img src="images/blog.webp" alt="Mises à jour OIIQ" loading="lazy" />
           <div class="blog-content">
             <span class="blog-date">10 mars 2025</span>
             <h3>Nouvelles directives OIIQ 2025</h3>
@@ -299,17 +299,73 @@
   <!-- PAIEMENT -->
   <section id="paiement" class="section">
     <div class="container">
-      <h2 class="section-title">Paiement</h2>
-      <p class="section-subtitle">Choisissez votre mode de paiement sécurisé</p>
+      <!-- ⚠️ BANNIÈRE DÉMO — Retirer avant mise en production -->
+      <div class="demo-banner">
+        🧪 <strong>Mode Démonstration</strong> — Aucun paiement réel ne sera effectué. Les boutons utilisent des environnements de test Stripe &amp; PayPal.
+      </div>
 
-      <div class="payment-options">
+      <h2 class="section-title">Paiement</h2>
+      <p class="section-subtitle">Choisissez votre forfait puis votre mode de paiement sécurisé</p>
+
+      <!-- Étape 1 : Sélection du forfait -->
+      <div class="payment-selector">
+        <label for="forfait-paiement">📦 <strong>Étape 1 — Sélectionnez votre forfait :</strong></label>
+        <select id="forfait-paiement" class="forfait-select">
+          <option value="">-- Choisir un forfait --</option>
+          <option value="option-a" data-price="299.00" data-label="Option A – Révisions intensives">Option A – Révisions intensives (299 $ CAD)</option>
+          <option value="option-b" data-price="399.00" data-label="Option B – Simulations d'examen">Option B – Simulations d'examen (399 $ CAD)</option>
+          <option value="option-c" data-price="599.00" data-label="Option C – Coaching individuel">Option C – Coaching individuel (599 $ CAD)</option>
+          <option value="package" data-price="1097.00" data-label="Forfait complet A+B+C">Forfait complet A+B+C (1 097 $ CAD)</option>
+        </select>
+      </div>
+
+      <p class="payment-step-label">💳 <strong>Étape 2 — Choisissez votre mode de paiement :</strong></p>
+
+      <div class="payment-options payment-options-3">
+
+        <!-- Stripe — Carte bancaire -->
+        <div class="payment-card featured">
+          <div class="badge-instant">⚡ Accès instantané</div>
+          <h3>💳 Carte bancaire</h3>
+          <p>Visa, Mastercard, Amex — paiement sécurisé via Stripe</p>
+          <ul class="payment-features">
+            <li>✓ Chiffrement SSL 256-bit</li>
+            <li>✓ Accès immédiat après paiement</li>
+            <li>✓ Reçu automatique par courriel</li>
+          </ul>
+          <div class="stripe-links">
+            <!-- ⚠️ DÉMO : liens test Stripe — Remplacer par vos vrais Payment Links en production -->
+            <a href="https://buy.stripe.com/test_demo_option_a" class="btn-primary btn-large demo-stripe-btn" target="_blank" rel="noopener">Option A – 299 $ →</a>
+            <a href="https://buy.stripe.com/test_demo_option_b" class="btn-primary btn-large demo-stripe-btn" target="_blank" rel="noopener">Option B – 399 $ →</a>
+            <a href="https://buy.stripe.com/test_demo_option_c" class="btn-primary btn-large demo-stripe-btn" target="_blank" rel="noopener">Option C – 599 $ →</a>
+            <a href="https://buy.stripe.com/test_demo_package" class="btn-primary btn-large demo-stripe-btn" target="_blank" rel="noopener">Forfait complet – 1 097 $ →</a>
+          </div>
+          <p class="powered-by">🔒 Propulsé par <strong>Stripe</strong></p>
+        </div>
+
+        <!-- PayPal -->
         <div class="payment-card">
-          <h3>💳 Virement Interac</h3>
+          <h3>🅿 PayPal</h3>
+          <p>Payez via votre compte PayPal ou directement par carte, sans compte requis</p>
+          <ul class="payment-features">
+            <li>✓ Protection acheteur PayPal</li>
+            <li>✓ Paiement rapide et sécurisé</li>
+            <li>✓ Compte PayPal ou carte bancaire</li>
+          </ul>
+          <div id="paypal-button-container" class="paypal-container">
+            <p class="select-forfait-msg">👆 Sélectionnez d'abord un forfait ci-dessus</p>
+          </div>
+          <p class="powered-by">🔒 Propulsé par <strong>PayPal</strong></p>
+        </div>
+
+        <!-- Virement Interac -->
+        <div class="payment-card">
+          <h3>🏦 Virement Interac</h3>
           <div class="bank-info">
             <p><strong>Courriel Interac :</strong> <em>paiements@cepicoaching.ca</em></p>
-            <p><strong>Nom du bénéficiaire :</strong> CEPI Coach Inc.</p>
+            <p><strong>Bénéficiaire :</strong> CEPI Coach Inc.</p>
             <div class="note">
-              <p>💡 <strong>Important :</strong> Après votre paiement, envoyez-nous une confirmation à <strong>info@cepicoaching.ca</strong> avec :</p>
+              <p>💡 <strong>Important :</strong> Après votre virement, envoyez la confirmation à <strong>info@cepicoaching.ca</strong> avec :</p>
               <ul>
                 <li>Votre nom complet</li>
                 <li>Le forfait choisi</li>
@@ -317,20 +373,9 @@
               </ul>
             </div>
           </div>
-          <a href="#inscription" class="btn-secondary btn-large" style="margin-top:14px;">Je veux être contacté</a>
+          <a href="#inscription" class="btn-secondary btn-large" style="margin-top:14px;">Me contacter</a>
         </div>
 
-        <div class="payment-card featured">
-          <div class="badge-instant">Accès instantané</div>
-          <h3>🔒 Paiement en ligne sécurisé</h3>
-          <p>Payez par carte bancaire et accédez immédiatement à votre formation</p>
-          <ul class="payment-features">
-            <li>✓ Paiement sécurisé SSL</li>
-            <li>✓ Cartes Visa, Mastercard, Amex</li>
-            <li>✓ Accès instantané</li>
-          </ul>
-          <a href="https://checkout.cepicoaching.ca" class="btn-primary btn-large">Payer maintenant</a>
-        </div>
       </div>
     </div>
   </section>
@@ -444,7 +489,7 @@
   <!-- Retour en haut -->
   <button id="scrollTop" class="scroll-top" aria-label="Retour en haut">↑</button>
 
-  <script src="js/script.js"></script>
+  <script src="script.js"></script>
 
   <!-- Mini JS menu (si jamais ton script.js ne le fait pas) -->
   <script>
@@ -453,6 +498,76 @@
     if (menuToggle && navLinks) {
       menuToggle.addEventListener("click", () => navLinks.classList.toggle("active"));
     }
+  </script>
+
+  <!-- PayPal SDK -->
+  <!-- ⚠️ MODE DÉMONSTRATION — client-id=sb (sandbox PayPal universel)
+       En production, remplacez "sb" par votre vrai Client ID PayPal Live.
+       Pour l'obtenir : https://developer.paypal.com/dashboard/applications/live
+  -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=CAD&locale=fr_CA" data-sdk-integration-source="button-factory"></script>
+  <script>
+    (function () {
+      if (typeof paypal === 'undefined') return;
+
+      var forfaitSelect = document.getElementById('forfait-paiement');
+      var container = document.getElementById('paypal-button-container');
+      var paypalButtonsInstance = null;
+
+      function renderPayPalButtons(price, label) {
+        // Ferme les boutons précédents si nécessaire
+        if (paypalButtonsInstance) {
+          try { paypalButtonsInstance.close(); } catch(e) {}
+        }
+        container.innerHTML = '';
+
+        paypalButtonsInstance = paypal.Buttons({
+          style: {
+            layout: 'vertical',
+            color: 'blue',
+            shape: 'rect',
+            label: 'paypal'
+          },
+          createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: price,
+                  currency_code: 'CAD'
+                },
+                description: 'CEPI Coach – ' + label
+              }]
+            });
+          },
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+              alert('✅ Paiement réussi ! Merci ' + details.payer.name.given_name + '. Vous recevrez un courriel de confirmation sous peu.');
+            });
+          },
+          onError: function (err) {
+            console.error('PayPal Error:', err);
+            alert('Une erreur est survenue lors du paiement. Veuillez réessayer ou nous contacter à info@cepicoaching.ca');
+          }
+        });
+
+        paypalButtonsInstance.render('#paypal-button-container');
+      }
+
+      if (forfaitSelect) {
+        forfaitSelect.addEventListener('change', function () {
+          var selected = this.options[this.selectedIndex];
+          var price = selected.getAttribute('data-price');
+          var label = selected.getAttribute('data-label');
+
+          if (price) {
+            renderPayPalButtons(price, label);
+          } else {
+            container.innerHTML = '<p class="select-forfait-msg">👆 Sélectionnez d\'abord un forfait ci-dessus</p>';
+            paypalButtonsInstance = null;
+          }
+        });
+      }
+    })();
   </script>
 </body>
 </html>
