@@ -340,25 +340,29 @@
             <span class="step-number">2</span>
             <h3>Formulaire d'inscription</h3>
           </div>
-          <form id="inscriptionForm" class="contact-form">
+          <form id="inscriptionForm" class="contact-form" autocomplete="on" novalidate>
             <div class="form-row">
               <div class="form-group">
                 <label for="prenom">Prénom *</label>
-                <input type="text" id="prenom" name="prenom" required placeholder="Ex : Marie" />
+                <input type="text" id="prenom" name="prenom" required placeholder="Ex : Marie"
+                  autocomplete="given-name" inputmode="text" />
               </div>
               <div class="form-group">
                 <label for="nom">Nom *</label>
-                <input type="text" id="nom" name="nom" required placeholder="Ex : Tremblay" />
+                <input type="text" id="nom" name="nom" required placeholder="Ex : Tremblay"
+                  autocomplete="family-name" inputmode="text" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="email">Adresse courriel *</label>
-                <input type="email" id="email" name="email" required placeholder="exemple@courriel.com" />
+                <input type="email" id="email" name="email" required placeholder="exemple@courriel.com"
+                  autocomplete="email" inputmode="email" />
               </div>
               <div class="form-group">
                 <label for="telephone">Numéro de téléphone *</label>
-                <input type="tel" id="telephone" name="telephone" required placeholder="(514) 555-0123" />
+                <input type="tel" id="telephone" name="telephone" required placeholder="(514) 555-0123"
+                  autocomplete="tel" inputmode="tel" />
               </div>
             </div>
             <div class="form-group">
@@ -415,11 +419,13 @@
         <div class="form-row">
           <div class="form-group">
             <label for="info-nom">Nom complet *</label>
-            <input type="text" id="info-nom" name="nom" required placeholder="Ex : Marie Tremblay" />
+            <input type="text" id="info-nom" name="nom" required placeholder="Ex : Marie Tremblay"
+              autocomplete="name" inputmode="text" />
           </div>
           <div class="form-group">
             <label for="info-email">Courriel *</label>
-            <input type="email" id="info-email" name="email" required placeholder="exemple@courriel.com" />
+            <input type="email" id="info-email" name="email" required placeholder="exemple@courriel.com"
+              autocomplete="email" inputmode="email" />
           </div>
         </div>
         <div class="form-group">
