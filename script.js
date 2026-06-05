@@ -28,9 +28,10 @@
   const hoursEl = $("#hours");
   const minutesEl = $("#minutes");
 
-  // Form
+  // Forms
+  const inscriptionForm = $("#inscriptionForm");
   const contactForm = $("#contactForm");
-  const forfaitSelect = $("#forfait");
+  const forfaitSelect = $("#forfait-inscription");
 
   // Buttons that choose a forfait
   const forfaitButtons = $$("[data-forfait]");
@@ -167,94 +168,100 @@
   updateCountdown();
   setInterval(updateCountdown, 1000 * 30);
 
-  // ---------- 6) Pré-remplir le forfait au clic ----------
-  if (forfaitSelect && forfaitButtons.length) {
+  // ---------- 6) Pré-remplir le forfait au clic sur les cartes ----------
+  if (forfaitButtons.length) {
     forfaitButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const forfait = btn.getAttribute("data-forfait");
         if (!forfait) return;
-        const option = forfaitSelect.querySelector(`option[value="${forfait}"]`);
-        if (option) forfaitSelect.value = forfait;
 
-        // Synchroniser aussi le sélecteur de la section paiement
-        const forfaitPaiement = $("#forfait-paiement");
-        if (forfaitPaiement) {
-          const optPaiement = forfaitPaiement.querySelector(`option[value="${forfait}"]`);
-          if (optPaiement) {
-            forfaitPaiement.value = forfait;
-            forfaitPaiement.dispatchEvent(new Event("change"));
-          }
+        // Remplir le select #forfait-inscription
+        if (forfaitSelect) {
+          const option = forfaitSelect.querySelector(`option[value="${forfait}"]`);
+          if (option) forfaitSelect.value = forfait;
         }
       });
     });
   }
 
-  // ---------- 7) Formulaire — Formspree ----------
-  // 🔧 CONFIGURATION REQUISE :
-  //   1. Créez un compte gratuit sur https://formspree.io
-  //   2. Cliquez "+ New Form", nommez-le "CEPI Coach Contact"
-  //   3. Copiez votre Form ID (ex: xpwzgkla) et remplacez VOTRE_FORM_ID ci-dessous
-  const FORMSPREE_ID = "VOTRE_FORM_ID";
-  const FORMSPREE_URL = `https://formspree.io/f/${FORMSPREE_ID}`;
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
+  // ---------- 7) Formulaire d'inscription ----------
+  if (inscriptionForm) {
+    inscriptionForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const formData = new FormData(contactForm);
+      const formData = new FormData(inscriptionForm);
       const payload = Object.fromEntries(formData.entries());
 
-      // Validation simple
-      if (!payload.nom || !payload.email) {
-        alert("Merci de remplir au minimum votre nom complet et votre courriel.");
+      // Récupérer le forfait du select principal
+      if (forfaitSelect) {
+        payload.forfait = forfaitSelect.value;
+      }
+
+      // Validation
+      if (!payload.prenom || !payload.nom || !payload.email || !payload.telephone) {
+        alert("Veuillez remplir tous les champs obligatoires (prénom, nom, courriel, téléphone).");
+        return;
+      }
+      if (!payload.source) {
+        alert("Veuillez indiquer comment vous avez entendu parler de la formation.");
         return;
       }
 
       // Bouton : état chargement
-      const submitBtn = contactForm.querySelector("button[type='submit']");
-      const originalText = submitBtn ? submitBtn.textContent : "";
+      const submitBtn = inscriptionForm.querySelector("button[type='submit']");
       if (submitBtn) {
-        submitBtn.textContent = "Envoi en cours…";
+        submitBtn.textContent = "Inscription confirmée ✓";
         submitBtn.disabled = true;
       }
 
-      // Si Formspree non encore configuré → fallback mailto
-      if (FORMSPREE_ID === "VOTRE_FORM_ID") {
-        const subject = encodeURIComponent("Demande d'information - CEPI Coach");
-        const body = encodeURIComponent(
-          `Nom: ${payload.nom}\n` +
-          `Email: ${payload.email}\n` +
-          `Téléphone: ${payload.telephone || "-"}\n` +
-          `Forfait: ${payload.forfait || "-"}\n\n` +
-          `Message:\n${payload.message || "-"}\n`
-        );
-        window.location.href = `mailto:info@cepicoaching.ca?subject=${subject}&body=${body}`;
-        if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+      // Envoyer par mailto (fallback simple)
+      const subject = encodeURIComponent("Nouvelle inscription — CEPI Coach");
+      const body = encodeURIComponent(
+        `Prénom : ${payload.prenom}\n` +
+        `Nom : ${payload.nom}\n` +
+        `Courriel : ${payload.email}\n` +
+        `Téléphone : ${payload.telephone}\n` +
+        `Forfait : ${payload.forfait || "Non précisé"}\n` +
+        `Source : ${payload.source}\n`
+      );
+      window.open(`mailto:blessing.pk123@gmail.com?subject=${subject}&body=${body}`);
+
+      // Afficher l'étape 3 (Interac)
+      const step3 = $("#step-3");
+      if (step3) {
+        step3.style.display = "block";
+        step3.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }
+
+  // ---------- 8) Formulaire demande d'info ----------
+  if (contactForm) {
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(contactForm);
+      const payload = Object.fromEntries(formData.entries());
+
+      if (!payload.nom || !payload.email || !payload.message) {
+        alert("Veuillez remplir tous les champs obligatoires.");
         return;
       }
 
-      // Envoi Formspree
-      try {
-        const res = await fetch(FORMSPREE_URL, {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: formData,
-        });
+      const submitBtn = contactForm.querySelector("button[type='submit']");
+      if (submitBtn) { submitBtn.textContent = "Envoi en cours…"; submitBtn.disabled = true; }
 
-        if (res.ok) {
-          contactForm.innerHTML = `
-            <div style="text-align:center;padding:40px 20px;">
-              <p style="font-size:48px;margin:0 0 12px;">✅</p>
-              <h3 style="font-size:22px;font-weight:800;margin:0 0 10px;">Message envoyé !</h3>
-              <p style="color:#6b7280;">Merci <strong>${payload.nom}</strong>, nous vous répondrons dans les plus brefs délais à <strong>${payload.email}</strong>.</p>
-            </div>`;
-        } else {
-          throw new Error("Erreur serveur");
-        }
-      } catch (err) {
-        alert("Une erreur est survenue. Veuillez nous écrire directement à info@cepicoaching.ca");
-        if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
-      }
+      const subject = encodeURIComponent("Demande d'information — CEPI Coach");
+      const body = encodeURIComponent(
+        `Nom : ${payload.nom}\nCourriel : ${payload.email}\n\nMessage :\n${payload.message}`
+      );
+      window.open(`mailto:blessing.pk123@gmail.com?subject=${subject}&body=${body}`);
+
+      contactForm.innerHTML = `
+        <div style="text-align:center;padding:40px 20px;">
+          <p style="font-size:48px;margin:0 0 12px;">✅</p>
+          <h3 style="font-size:1.2rem;font-weight:800;margin:0 0 10px;">Message envoyé !</h3>
+          <p style="color:#6b7280;">Merci <strong>${payload.nom}</strong>, nous vous répondrons dans les plus brefs délais.</p>
+        </div>`;
     });
   }
 

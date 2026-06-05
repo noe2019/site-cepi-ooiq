@@ -355,6 +355,7 @@ ul{ margin:0; padding:0; }
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   gap:28px;
+  align-items: stretch; /* toutes les cartes à la même hauteur */
 }
 
 .card{
@@ -362,54 +363,99 @@ ul{ margin:0; padding:0; }
   border-radius:var(--radius);
   box-shadow:var(--shadow-soft);
   overflow:hidden;
-  border:1px solid rgba(0,0,0,.05);
-  padding:18px 18px 16px;
+  border:1px solid rgba(0,0,0,.06);
+  padding:20px 22px 22px;
   position:relative;
+  /* Flexbox colonne : ancre le footer en bas */
+  display:flex;
+  flex-direction:column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
 }
 
 .card img{
-  border-radius:14px;
-  height:200px;
+  border-radius:12px;
+  height:190px;
   width:100%;
   object-fit:cover;
+  flex-shrink:0;
 }
 
 .card h3{
   text-align:center;
-  margin:16px 0 8px;
-  font-size:22px;
+  margin:16px 0 10px;
+  font-size:21px;
   font-weight:800;
+  flex-shrink:0;
 }
 
 .card-desc{
   text-align:center;
   color:var(--muted);
+  font-size:14.5px;
+  line-height:1.55;
+  /* Zone fixe : la liste commence toujours au même niveau */
+  min-height:72px;
   margin:0 0 14px;
+  flex-shrink:0;
 }
 
 .card-features{
-  padding-left:18px;
+  list-style:none;
+  padding:0;
   color:#374151;
+  font-size:14.5px;
   margin:0;
+  /* Prend tout l'espace restant → pousse le footer vers le bas */
+  flex:1;
 }
-.card-features li{ margin:6px 0; }
-
-.card-footer{
-  margin-top:16px;
+.card-features li{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
+  align-items:flex-start;
+  gap:8px;
+  padding:5px 0;
+  border-bottom:1px solid rgba(0,0,0,.04);
+}
+.card-features li:last-child{ border-bottom:none; }
+
+/* Séparateur + prix + bouton */
+.card-footer{
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid rgba(0,0,0,.07);
+  display:flex;
+  flex-direction:column;
   gap:12px;
+  align-items:stretch;
 }
 
 .price{
   margin:0;
-  font-size:22px;
+  font-size:28px;
   font-weight:800;
+  color:var(--primary);
+  text-align:center;
 }
 .currency{
-  font-size:13px;
+  font-size:15px;
   color:var(--muted);
+  font-weight:700;
+}
+
+/* Bouton pleine largeur ancré en bas */
+.btn-card{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:var(--shadow-soft);
+  width:100%;
+  justify-content:center;
+}
+.btn-card:hover{
+  background:var(--primary-dark);
+  transform:translateY(-1px);
 }
 
 .card-badge{
@@ -420,57 +466,16 @@ ul{ margin:0; padding:0; }
   color:#111827;
   font-weight:800;
   font-size:12px;
-  padding:6px 10px;
+  padding:5px 10px;
   border-radius:999px;
   box-shadow:var(--shadow-soft);
+  z-index:1;
 }
 .card-badge.premium{
   background:#111827;
   color:#fff;
 }
 
-/* =========================
-   FORFAIT COMPLET (combo)
-========================= */
-.combo-package{
-  margin-top:42px;
-  background:#fff;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  border:1px solid rgba(0,0,0,.05);
-  padding:22px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-
-.combo-badge{
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
-  font-weight:800;
-  color:#111827;
-  background:rgba(11,120,182,.10);
-  border:1px solid rgba(11,120,182,.25);
-  padding:8px 12px;
-  border-radius:999px;
-  margin-bottom:12px;
-}
-
-.price-combo{
-  margin:14px 0 6px;
-  font-size:20px;
-}
-.old-price{
-  color:var(--muted);
-  text-decoration:line-through;
-  margin-right:8px;
-}
-.savings{
-  color:var(--primary);
-  font-weight:800;
-  margin-bottom:16px;
-}
 
 /* =========================
    SPLIT (Méthode)
@@ -515,20 +520,35 @@ ul{ margin:0; padding:0; }
   display:grid;
   grid-template-columns: repeat(3, 1fr);
   gap:28px;
+  align-items:stretch;
 }
 .testimonial{
   background:#fff;
   border-radius:var(--radius);
   box-shadow:var(--shadow-soft);
   border:1px solid rgba(0,0,0,.05);
-  padding:18px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+}
+.testimonial p{
+  flex:1; /* le texte du témoignage pousse l'auteur en bas */
+  color:var(--text);
+  font-style:italic;
+  line-height:1.65;
 }
 .stars{
   color:#f59e0b;
-  letter-spacing:1px;
-  margin-bottom:10px;
+  letter-spacing:2px;
+  margin-bottom:12px;
+  font-size:16px;
 }
-.author strong{ display:block; }
+.author{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid rgba(0,0,0,.07);
+}
+.author strong{ display:block; font-size:15px; }
 .author span{ color:var(--muted); font-size:13px; }
 
 /* =========================
@@ -555,6 +575,7 @@ ul{ margin:0; padding:0; }
   display:grid;
   grid-template-columns: repeat(2, 1fr);
   gap:28px;
+  align-items:stretch;
 }
 
 .blog-card{
@@ -563,35 +584,52 @@ ul{ margin:0; padding:0; }
   box-shadow:var(--shadow-soft);
   overflow:hidden;
   border:1px solid rgba(0,0,0,.05);
+  display:flex;
+  flex-direction:column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.blog-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
 }
 
 .blog-card img{
-  height:240px;
+  height:220px;
   width:100%;
   object-fit:cover;
+  flex-shrink:0;
 }
 
 .blog-content{
-  padding:18px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
 }
 .blog-date{
   color:var(--muted);
   font-size:13px;
   font-weight:700;
+  flex-shrink:0;
 }
 .blog-content h3{
   margin:10px 0 10px;
-  font-size:20px;
+  font-size:19px;
   font-weight:800;
+  flex-shrink:0;
 }
 .blog-content p{
   color:var(--muted);
-  margin-bottom:12px;
+  margin-bottom:0;
+  flex:1; /* pousse le lien en bas */
 }
 .blog-link{
+  display:inline-block;
+  margin-top:14px;
   color:var(--primary);
   font-weight:800;
   text-decoration:none;
+  flex-shrink:0;
 }
 .blog-link:hover{ color:var(--primary-dark); }
 
@@ -911,10 +949,10 @@ footer{
 /* =========================
    RESPONSIVE
 ========================= */
+
+/* ≤ 980px : menu hamburger + 1 colonne */
 @media (max-width: 980px){
-  .cards{ grid-template-columns: 1fr; }
   .testimonials{ grid-template-columns: 1fr; }
-  .blog-grid{ grid-template-columns: 1fr; }
   .split{ grid-template-columns: 1fr; }
   .payment-options{ grid-template-columns: 1fr; }
   .payment-options-3{ grid-template-columns: 1fr; }
@@ -928,20 +966,219 @@ footer{
     left:0;
     right:0;
     background:#fff;
-    border-bottom:1px solid rgba(0,0,0,.06);
+    border-bottom:1px solid rgba(0,0,0,.08);
     flex-direction:column;
-    gap:14px;
-    padding:16px 0;
+    align-items:center;
+    gap:0;
+    padding:8px 0 16px;
     display:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.07);
   }
   .nav-links.active{ display:flex; }
-
+  .nav-links li{ width:100%; text-align:center; }
+  .nav-links a{ display:block; padding:12px 24px; }
   .nav-links a.active::after{ display:none; }
+  .cta-nav{ margin:8px 24px 0; border-radius:12px; }
 }
 
-@media (max-width: 520px){
+/* Tablette 600–980px : grilles 2 colonnes */
+@media (min-width: 600px) and (max-width: 980px){
+  .cards{ grid-template-columns: repeat(2, 1fr); }
+  .testimonials{ grid-template-columns: repeat(2, 1fr); }
+  .combo-cards{ grid-template-columns: repeat(2, 1fr); }
+  .blog-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Mobile ≤ 599px : tout en 1 colonne */
+@media (max-width: 599px){
   .navbar{ padding:0 14px; }
   .hero-content{ padding:54px 0; }
-  .stat{ min-width: 140px; }
-  .section{ padding:70px 0; }
+  .stat{ min-width:130px; }
+  .section{ padding:60px 0; }
+
+  .hero-actions{ flex-direction:column; align-items:stretch; padding:0 16px; }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary{ width:100%; justify-content:center; }
+
+  .cards{ grid-template-columns: 1fr; }
+  .card-desc{ min-height:auto; }
+
+  .combo-cards{ grid-template-columns: 1fr; }
+  .combo-card > p:not(.price-combo){ min-height:auto; }
+
+  .blog-grid{ grid-template-columns: 1fr; }
+  .footer-content{ grid-template-columns: 1fr; }
+
+  .inscription-step{ padding:24px 18px; }
+  .interac-box{ padding:20px 16px; }
 }
+
+/* =========================
+   OFFRES COMBINÉES
+========================= */
+.combo-section {
+  margin-top: 56px;
+  text-align: center;
+}
+.combo-section-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.combo-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 36px;
+  align-items: stretch;
+}
+.combo-card {
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 36px 24px 24px;
+  position: relative;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
+}
+.combo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+.combo-card--best {
+  border-color: var(--primary);
+  background: linear-gradient(160deg, #eef6f9 0%, #fff 100%);
+}
+.combo-card h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: var(--text);
+  flex-shrink: 0;
+}
+/* desc combo : zone fixe pour que les prix s'alignent */
+.combo-card > p:not(.price-combo) {
+  color: var(--muted);
+  font-size: .95rem;
+  min-height: 52px;
+  margin: 0 0 0;
+  flex-shrink: 0;
+}
+.combo-card .price-combo {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 16px 0 20px;
+  flex-shrink: 0;
+}
+/* bouton combo pleine largeur, ancré en bas */
+.combo-card .btn-card,
+.combo-card .btn-primary {
+  width: 100%;
+  justify-content: center;
+  margin-top: auto;
+}
+.combo-card .combo-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 5px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* =========================
+   INSCRIPTION & PAIEMENT
+========================= */
+.inscription-wrapper {
+  max-width: 740px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.inscription-step {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 32px 36px;
+  box-shadow: var(--shadow-soft);
+}
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.step-number {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-header h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text);
+}
+
+/* Message de succès */
+.inscription-success {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  color: #065f46;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.inscription-success strong { color: #047857; }
+
+/* Boîte Interac */
+.interac-box {
+  background: var(--light);
+  border-radius: var(--radius-sm);
+  padding: 28px 30px;
+}
+.interac-box h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+  color: var(--primary);
+}
+.interac-box p { margin: 0 0 8px; color: var(--text); }
+.interac-box a { color: var(--primary); font-weight: 600; }
+.interac-note { color: var(--muted) !important; font-style: italic; }
+.interac-box .note {
+  margin-top: 18px;
+  background: #fff;
+  border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 16px 18px;
+}
+.interac-box .note p { margin: 0 0 8px; font-weight: 600; }
+.interac-box .note ul {
+  margin: 8px 0 0 18px;
+  padding: 0;
+  color: var(--text);
+}
+.interac-box .note ul li { margin-bottom: 4px; }
+
