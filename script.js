@@ -185,6 +185,25 @@
   }
 
   // ---------- 7) Formulaire d'inscription ----------
+
+  // Labels lisibles pour les forfaits et les sources
+  const FORFAIT_LABELS = {
+    "option-a" : "Option A — Révisions intensives (300 $)",
+    "option-b" : "Option B — Simulations d'examen (200 $)",
+    "option-c" : "Option C — Coaching individuel (400 $)",
+    "a-b"      : "Option A + B — Révisions intensives + Simulations (400 $)",
+    "b-c"      : "Option B + C — Simulations + Coaching individuel (500 $)",
+    "a-b-c"    : "Option A + B + C — Formule complète (700 $)"
+  };
+
+  const SOURCE_LABELS = {
+    "ami"       : "Par un(e) ami(e)",
+    "internet"  : "En naviguant sur Internet",
+    "reseaux"   : "Réseaux sociaux",
+    "reference" : "Référence professionnelle",
+    "autre"     : "Autre"
+  };
+
   if (inscriptionForm) {
     inscriptionForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -193,9 +212,7 @@
       const payload = Object.fromEntries(formData.entries());
 
       // Récupérer le forfait du select principal
-      if (forfaitSelect) {
-        payload.forfait = forfaitSelect.value;
-      }
+      if (forfaitSelect) payload.forfait = forfaitSelect.value;
 
       // Validation
       if (!payload.prenom || !payload.nom || !payload.email || !payload.telephone) {
@@ -207,31 +224,41 @@
         return;
       }
 
-      // Bouton : état chargement
+      // Labels lisibles
+      const forfaitLabel = FORFAIT_LABELS[payload.forfait] || payload.forfait || "Non précisé";
+      const sourceLabel  = SOURCE_LABELS[payload.source]  || payload.source;
+
+      // Bouton : état confirmé
       const submitBtn = inscriptionForm.querySelector("button[type='submit']");
       if (submitBtn) {
         submitBtn.textContent = "Inscription confirmée ✓";
         submitBtn.disabled = true;
       }
 
-      // Envoyer par mailto (fallback simple)
+      // ── Afficher l'étape 3 immédiatement ──
+      const step3 = $("#step-3");
+      if (step3) {
+        step3.style.display = "block";
+        setTimeout(() => step3.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+      }
+
+      // ── Ouvrir le client mail avec les infos lisibles ──
       const subject = encodeURIComponent("Nouvelle inscription — CEPI Coach");
       const body = encodeURIComponent(
         `Prénom : ${payload.prenom}\n` +
         `Nom : ${payload.nom}\n` +
         `Courriel : ${payload.email}\n` +
         `Téléphone : ${payload.telephone}\n` +
-        `Forfait : ${payload.forfait || "Non précisé"}\n` +
-        `Source : ${payload.source}\n`
+        `Forfait : ${forfaitLabel}\n` +
+        `Source : ${sourceLabel}\n`
       );
-      window.open(`mailto:blessing.pk123@gmail.com?subject=${subject}&body=${body}`);
-
-      // Afficher l'étape 3 (Interac)
-      const step3 = $("#step-3");
-      if (step3) {
-        step3.style.display = "block";
-        step3.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      // Utiliser un lien <a> invisible pour éviter les bloqueurs de popup
+      const mailLink = document.createElement("a");
+      mailLink.href = `mailto:blessing.pk123@gmail.com?subject=${subject}&body=${body}`;
+      mailLink.style.display = "none";
+      document.body.appendChild(mailLink);
+      mailLink.click();
+      document.body.removeChild(mailLink);
     });
   }
 
