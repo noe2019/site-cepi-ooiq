@@ -150,9 +150,9 @@ if (typeof emailjs !== "undefined") {
   window.addEventListener("load", setActiveLink);
 
   // ---------- 5) Countdown ----------
-  // Prochaine session OIIQ — septembre 2026 (date exacte à confirmer sur oiiq.org)
-  // L'OIIQ tient généralement ses examens le 3e jeudi de septembre.
-  const EXAM_DATE = new Date("2026-09-17T09:00:00");
+  // Prochaine session OIIQ — 26 septembre 2026
+  // Source : oiiq.org/prochain-examen-professionnel-rendez-vous-le-26-septembre
+  const EXAM_DATE = new Date("2026-09-26T09:00:00");
 
   const pad2 = (n) => String(n).padStart(2, "0");
 
@@ -231,6 +231,11 @@ if (typeof emailjs !== "undefined") {
       if (forfaitSelect) payload.forfait = forfaitSelect.value;
 
       // Validation
+      if (!payload.forfait) {
+        alert("Veuillez sélectionner un forfait à l'étape 1 avant de continuer.");
+        $("#step-1").scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
       if (!payload.prenom || !payload.nom || !payload.email || !payload.telephone) {
         alert("Veuillez remplir tous les champs obligatoires (prénom, nom, courriel, téléphone).");
         return;
