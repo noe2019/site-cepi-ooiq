@@ -16,9 +16,9 @@
 // 3. Créez un template        → notez le TEMPLATE_ID
 // 4. Copiez votre Public Key  → notez la PUBLIC_KEY
 // Remplacez les 3 valeurs ci-dessous, puis faites git push.
-const EMAILJS_PUBLIC_KEY  = "VOTRE_PUBLIC_KEY";
-const EMAILJS_SERVICE_ID  = "VOTRE_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "VOTRE_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY  = "laSFyC2trnOeKqgKn";
+const EMAILJS_SERVICE_ID  = "service_zwv0abp";
+const EMAILJS_TEMPLATE_ID = "template_wkgk3pc";
 // ──────────────────────────────────────────────────────
 
 // Initialisation EmailJS (dès que le script est chargé)
