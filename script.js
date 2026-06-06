@@ -7,8 +7,24 @@
    - Smooth scroll offset (header)
    - Countdown (prochaine session)
    - Pré-remplissage du forfait (data-forfait)
-   - Soumission formulaire via Formspree
+   - Envoi email via EmailJS (sans ouvrir le client mail)
 ========================= */
+
+// ── Configuration EmailJS ──────────────────────────────
+// 1. Créez un compte sur https://emailjs.com (gratuit)
+// 2. Ajoutez un service Gmail  → notez le SERVICE_ID
+// 3. Créez un template        → notez le TEMPLATE_ID
+// 4. Copiez votre Public Key  → notez la PUBLIC_KEY
+// Remplacez les 3 valeurs ci-dessous, puis faites git push.
+const EMAILJS_PUBLIC_KEY  = "VOTRE_PUBLIC_KEY";
+const EMAILJS_SERVICE_ID  = "VOTRE_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = "VOTRE_TEMPLATE_ID";
+// ──────────────────────────────────────────────────────
+
+// Initialisation EmailJS (dès que le script est chargé)
+if (typeof emailjs !== "undefined") {
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+}
 
 (() => {
   "use strict";
@@ -235,30 +251,30 @@
         submitBtn.disabled = true;
       }
 
-      // ── Afficher l'étape 3 immédiatement ──
+      // ── Afficher l'étape 3 Interac immédiatement ──
       const step3 = $("#step-3");
       if (step3) {
         step3.style.display = "block";
         setTimeout(() => step3.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
       }
 
-      // ── Ouvrir le client mail avec les infos lisibles ──
-      const subject = encodeURIComponent("Nouvelle inscription — CEPI Coach");
-      const body = encodeURIComponent(
-        `Prénom : ${payload.prenom}\n` +
-        `Nom : ${payload.nom}\n` +
-        `Courriel : ${payload.email}\n` +
-        `Téléphone : ${payload.telephone}\n` +
-        `Forfait : ${forfaitLabel}\n` +
-        `Source : ${sourceLabel}\n`
-      );
-      // Utiliser un lien <a> invisible pour éviter les bloqueurs de popup
-      const mailLink = document.createElement("a");
-      mailLink.href = `mailto:blessing.pk123@gmail.com?subject=${subject}&body=${body}`;
-      mailLink.style.display = "none";
-      document.body.appendChild(mailLink);
-      mailLink.click();
-      document.body.removeChild(mailLink);
+      // ── Envoi silencieux via EmailJS ──
+      const templateParams = {
+        prenom    : payload.prenom,
+        nom       : payload.nom,
+        email     : payload.email,
+        telephone : payload.telephone,
+        forfait   : forfaitLabel,
+        source    : sourceLabel,
+      };
+
+      if (typeof emailjs !== "undefined" && EMAILJS_PUBLIC_KEY !== "VOTRE_PUBLIC_KEY") {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+          .catch(() => {
+            // Échec silencieux : l'utilisateur ne voit rien, l'étape 3 est déjà affichée
+            console.warn("EmailJS : échec de l'envoi.");
+          });
+      }
     });
   }
 
@@ -277,18 +293,26 @@
       const submitBtn = contactForm.querySelector("button[type='submit']");
       if (submitBtn) { submitBtn.textContent = "Envoi en cours…"; submitBtn.disabled = true; }
 
-      const subject = encodeURIComponent("Demande d'information — CEPI Coach");
-      const body = encodeURIComponent(
-        `Nom : ${payload.nom}\nCourriel : ${payload.email}\n\nMessage :\n${payload.message}`
-      );
-      window.open(`mailto:blessing.pk123@gmail.com?subject=${subject}&body=${body}`);
-
+      // Afficher la confirmation immédiatement
+      const nomVal = payload.nom;
       contactForm.innerHTML = `
         <div style="text-align:center;padding:40px 20px;">
           <p style="font-size:48px;margin:0 0 12px;">✅</p>
           <h3 style="font-size:1.2rem;font-weight:800;margin:0 0 10px;">Message envoyé !</h3>
-          <p style="color:#6b7280;">Merci <strong>${payload.nom}</strong>, nous vous répondrons dans les plus brefs délais.</p>
+          <p style="color:#6b7280;">Merci <strong>${nomVal}</strong>, nous vous répondrons dans les plus brefs délais.</p>
         </div>`;
+
+      // Envoi silencieux via EmailJS
+      if (typeof emailjs !== "undefined" && EMAILJS_PUBLIC_KEY !== "VOTRE_PUBLIC_KEY") {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          prenom : nomVal,
+          nom    : "",
+          email  : payload.email,
+          telephone : "",
+          forfait   : "Demande d'information",
+          source    : payload.message,
+        }).catch(() => console.warn("EmailJS : échec demande d'info."));
+      }
     });
   }
 
