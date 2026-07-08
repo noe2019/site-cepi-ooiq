@@ -23,3 +23,9 @@ npm-debug.log*
 *.log
 *.tmp
 *.bak
+
+# ── Notebooks / données / brouillons ────────────────────
+*.ipynb
+.ipynb_checkpoints/
+*.csv
+*.env
