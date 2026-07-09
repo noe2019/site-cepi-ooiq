@@ -16,9 +16,12 @@
 // 3. Créez un template        → notez le TEMPLATE_ID
 // 4. Copiez votre Public Key  → notez la PUBLIC_KEY
 // Remplacez les 3 valeurs ci-dessous, puis faites git push.
-const EMAILJS_PUBLIC_KEY  = "laSFyC2trnOeKqgKn";
-const EMAILJS_SERVICE_ID  = "service_zwv0abp";
-const EMAILJS_TEMPLATE_ID = "template_wkgk3pc";
+const EMAILJS_PUBLIC_KEY  = "xnzpy7Xkp0uSR5eaE";
+const EMAILJS_SERVICE_ID  = "service_2z0zt6i";
+const EMAILJS_TEMPLATE_ID = "template_sk1ss5l";
+// Le destinataire (contact@cepicoach.com) est défini dans le champ
+// "To Email" du template EmailJS. Les variables envoyées ci-dessous
+// correspondent au template "Contact Us" : name, email, title, message, time.
 // ──────────────────────────────────────────────────────
 
 // Initialisation EmailJS (dès que le script est chargé)
@@ -265,12 +268,18 @@ if (typeof emailjs !== "undefined") {
 
       // ── Envoi silencieux via EmailJS ──
       const templateParams = {
-        prenom    : payload.prenom,
-        nom       : payload.nom,
-        email     : payload.email,
-        telephone : payload.telephone,
-        forfait   : forfaitLabel,
-        source    : sourceLabel,
+        name    : `${payload.prenom} ${payload.nom}`,
+        email   : payload.email,
+        title   : `Inscription — ${forfaitLabel}`,
+        time    : new Date().toLocaleString("fr-CA"),
+        message :
+          `Nouvelle inscription :\n` +
+          `Prénom : ${payload.prenom}\n` +
+          `Nom : ${payload.nom}\n` +
+          `Courriel : ${payload.email}\n` +
+          `Téléphone : ${payload.telephone}\n` +
+          `Forfait : ${forfaitLabel}\n` +
+          `Comment nous a connu : ${sourceLabel}`,
       };
 
       if (typeof emailjs !== "undefined" && EMAILJS_PUBLIC_KEY !== "VOTRE_PUBLIC_KEY") {
@@ -310,12 +319,11 @@ if (typeof emailjs !== "undefined") {
       // Envoi silencieux via EmailJS
       if (typeof emailjs !== "undefined" && EMAILJS_PUBLIC_KEY !== "VOTRE_PUBLIC_KEY") {
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          prenom : nomVal,
-          nom    : "",
-          email  : payload.email,
-          telephone : "",
-          forfait   : "Demande d'information",
-          source    : payload.message,
+          name    : nomVal,
+          email   : payload.email,
+          title   : "Demande d'information",
+          time    : new Date().toLocaleString("fr-CA"),
+          message : payload.message,
         }).catch(() => console.warn("EmailJS : échec demande d'info."));
       }
     });
