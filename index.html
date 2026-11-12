@@ -7,7 +7,7 @@
 
   <!-- SEO optimisé -->
   <title>Réussissez l'examen OIIQ dès la 1ère tentative | CEPI Coach</title>
-  <meta name="description" content="Préparez votre examen OIIQ avec nos formations intensives, simulations réalistes et coaching personnalisé. Taux de réussite de 100 % — 12 étudiants formés." />
+  <meta name="description" content="Préparez votre examen OIIQ avec nos formations intensives, simulations réalistes et coaching personnalisé. Taux de réussite de 96 % : 25 réussites sur 26 étudiants coachés, dont 13 sur 14 à l'examen de septembre 2026." />
   <meta name="keywords" content="examen OIIQ, préparation infirmière, formation OIIQ, simulation examen, coaching infirmier" />
 
   <!-- Open Graph -->
@@ -40,7 +40,7 @@
         <a href="#accueil">CEPI<em>Coach</em></a>
       </div>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
 
@@ -48,6 +48,7 @@
         <li><a href="#accueil">Accueil</a></li>
         <li><a href="#formations">Formations</a></li>
         <li><a href="#methode">Méthode</a></li>
+        <li><a href="#temoignages">Avis</a></li>
         <li><a href="#blogue">Blogue</a></li>
         <li><a href="#inscription">Demande d'info</a></li>
         <li><a href="#paiement" class="cta-nav">Inscription & Paiement</a></li>
@@ -68,16 +69,20 @@
 
       <div class="hero-stats">
         <div class="stat">
-          <strong>100%</strong>
-          <span>Taux de réussite</span>
+          <strong>96&nbsp;%</strong>
+          <span>Taux de réussite global</span>
         </div>
         <div class="stat">
-          <strong>12</strong>
-          <span>Étudiants formés</span>
+          <strong>26</strong>
+          <span>Étudiants coachés</span>
         </div>
         <div class="stat">
-          <strong>4,8/5</strong>
-          <span>Note moyenne</span>
+          <strong>13 / 14</strong>
+          <span>Réussites en sept. 2026</span>
+        </div>
+        <div class="stat">
+          <strong id="noteMoyenne">5,0/5</strong>
+          <span id="noteLabel">Note moyenne (3 avis)</span>
         </div>
       </div>
 
@@ -85,6 +90,36 @@
         <a href="#formations" class="btn-secondary btn-large">Voir les forfaits</a>
         <a href="#paiement" class="btn-primary btn-large">S'inscrire maintenant</a>
       </div>
+    </div>
+  </section>
+
+  <!-- RÉSULTATS -->
+  <section id="resultats" class="section">
+    <div class="container">
+      <h2 class="section-title">Nos résultats</h2>
+      <p class="section-subtitle">Examen professionnel de l'OIIQ — session de septembre 2026</p>
+
+      <div class="results-grid">
+        <div class="result-tile">
+          <strong>14</strong>
+          <span>étudiants coachés</span>
+        </div>
+        <div class="result-tile">
+          <strong>13</strong>
+          <span>ont réussi l'examen</span>
+        </div>
+        <div class="result-tile">
+          <strong>93&nbsp;%</strong>
+          <span>de réussite</span>
+        </div>
+      </div>
+
+      <div class="result-dots" role="img" aria-label="13 étudiants sur 14 ont réussi l'examen de septembre 2026">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i>
+      </div>
+      <p class="result-caption">13 réussites sur 14 étudiants coachés</p>
+
+      <p class="result-total">Depuis nos débuts : <strong>25 réussites sur 26 étudiants coachés</strong>, soit 96&nbsp;%.</p>
     </div>
   </section>
 
@@ -106,6 +141,7 @@
           <span class="time-label">Minutes</span>
         </div>
       </div>
+      <p class="countdown-date" id="examDateLabel"></p>
       <p class="countdown-cta">Ne laissez pas le temps vous rattraper !</p>
     </div>
   </section>
@@ -245,8 +281,9 @@
   <section id="temoignages" class="section">
     <div class="container">
       <h2 class="section-title">Ils ont réussi avec CEPI Coach</h2>
+      <p class="rating-summary" id="resumeAvis" hidden></p>
 
-      <div class="testimonials">
+      <div class="testimonials" id="listeAvis">
         <div class="testimonial">
           <div class="stars">★★★★★</div>
           <p>"Bonjour Blessing, j'ai réussi à l'examen de l'Ordre !"</p>
@@ -273,6 +310,66 @@
             <span>Infirmière diplômée</span>
           </div>
         </div>
+      </div>
+
+      <!-- Laisser un avis -->
+      <div class="review-block" id="laisser-avis">
+        <h3>Laisser un avis</h3>
+        <p class="section-subtitle">Vous avez suivi une formation CEPI Coach ? Partagez votre expérience. Chaque avis est lu et validé avant d'être publié.</p>
+
+        <form id="reviewForm" class="contact-form review-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="avis-nom">Prénom affiché avec l'avis *</label>
+              <input type="text" id="avis-nom" name="nom" required maxlength="40" placeholder="Ex : Marie" autocomplete="given-name" />
+            </div>
+            <div class="form-group">
+              <label for="avis-email">Courriel *</label>
+              <input type="email" id="avis-email" name="email" required placeholder="exemple@courriel.com" autocomplete="email" inputmode="email" />
+              <span class="field-hint">Ne sera pas publié.</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="avis-statut">Votre situation</label>
+            <select id="avis-statut" name="statut" class="forfait-select">
+              <option value="Infirmière diplômée">Infirmière diplômée</option>
+              <option value="Infirmier diplômé">Infirmier diplômé</option>
+              <option value="CEPI">CEPI</option>
+              <option value="Étudiant(e) en soins infirmiers">Étudiant(e) en soins infirmiers</option>
+            </select>
+          </div>
+
+          <fieldset>
+            <legend>Votre note *</legend>
+            <div class="rating" id="avisRating">
+              <input type="radio" name="note" id="note-1" value="1" /><label for="note-1" title="1 sur 5" aria-label="1 étoile sur 5">★</label>
+              <input type="radio" name="note" id="note-2" value="2" /><label for="note-2" title="2 sur 5" aria-label="2 étoiles sur 5">★</label>
+              <input type="radio" name="note" id="note-3" value="3" /><label for="note-3" title="3 sur 5" aria-label="3 étoiles sur 5">★</label>
+              <input type="radio" name="note" id="note-4" value="4" /><label for="note-4" title="4 sur 5" aria-label="4 étoiles sur 5">★</label>
+              <input type="radio" name="note" id="note-5" value="5" /><label for="note-5" title="5 sur 5" aria-label="5 étoiles sur 5">★</label>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <label for="avis-texte">Votre avis *</label>
+            <textarea id="avis-texte" name="texte" rows="5" required maxlength="600" placeholder="Comment la formation vous a-t-elle aidé(e) ?"></textarea>
+            <span class="char-count"><span id="avisCount">0</span> / 600</span>
+          </div>
+
+          <div class="hp-field" aria-hidden="true">
+            <label for="avis-site">Ne pas remplir</label>
+            <input type="text" id="avis-site" name="site_web" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <label class="consent" for="avis-accord">
+            <input type="checkbox" id="avis-accord" name="accord" required />
+            <span>J'accepte que mon prénom et mon avis soient publiés sur cepicoach.com.</span>
+          </label>
+
+          <button type="submit" class="btn-primary btn-large">Envoyer mon avis</button>
+          <p class="form-status error" id="avisStatus" role="alert" hidden></p>
+        </form>
       </div>
     </div>
   </section>
@@ -478,6 +575,7 @@
 
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="avis.js"></script>
   <script src="script.js"></script>
 
 
